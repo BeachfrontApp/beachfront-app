@@ -1,9 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 
-    // ===== Източник =====
+    // =====================================================
+    // APPS SCRIPT WEB APP
+    // =====================================================
 
-    const sourceButtons = document.querySelectorAll(".source");
+    const APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycby2GH9uwa33nT92lPOT_h2uEuqbP9Tfndy-8pOjtSwFh9rEyZmRLqNXybyZESxvWpc/exec";
+
+
+    // =====================================================
+    // SOURCE
+    // =====================================================
+
+    const sourceButtons =
+        document.querySelectorAll(".source");
 
     let selectedSource = "Booking.com";
 
@@ -12,36 +23,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
         button.addEventListener("click", () => {
 
-            sourceButtons.forEach(b => b.classList.remove("active"));
+            sourceButtons.forEach(b =>
+                b.classList.remove("active")
+            );
 
             button.classList.add("active");
 
-            selectedSource = button.innerText;
+            selectedSource =
+                button.innerText;
 
         });
 
     });
 
 
+    // =====================================================
+    // COUNTERS
+    // =====================================================
 
-    // ===== Броячи =====
-
-    const counters = document.querySelectorAll(".counter-row");
+    const counters =
+        document.querySelectorAll(".counter-row");
 
 
     counters.forEach((row, index) => {
 
-        const buttons = row.querySelectorAll("button");
+        const buttons =
+            row.querySelectorAll("button");
 
         const minus = buttons[0];
         const plus = buttons[1];
 
-        const value = row.querySelector(".counter-value");
+        const value =
+            row.querySelector(".counter-value");
 
 
         plus.addEventListener("click", () => {
 
-            value.innerText = Number(value.innerText) + 1;
+            const number =
+                Number(value.innerText) + 1;
+
+            /*
+             * Maximum total number of people/pets
+             * will be checked by the pricing engine.
+             */
+
+            value.innerText = number;
 
             loadPrice();
 
@@ -50,16 +76,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         minus.addEventListener("click", () => {
 
-            let number = Number(value.innerText) - 1;
+            let number =
+                Number(value.innerText) - 1;
 
 
-            // Възрастни минимум 1
+            // Adults minimum 1
             if (index === 0 && number < 1) {
                 number = 1;
             }
 
 
-            // Деца и домашни любимци минимум 0
+            // Children and pets minimum 0
             if (index !== 0 && number < 0) {
                 number = 0;
             }
@@ -74,11 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    // =====================================================
+    // CHECK-IN OPTION
+    // =====================================================
 
-
-    // ===== Настаняване =====
-
-    const optionButtons = document.querySelectorAll(".option");
+    const optionButtons =
+        document.querySelectorAll(".option");
 
     let selectedCheckinPrice = 0;
 
@@ -87,112 +115,262 @@ document.addEventListener("DOMContentLoaded", () => {
 
         button.addEventListener("click", () => {
 
-
-            optionButtons.forEach(b => b.classList.remove("active"));
-
+            optionButtons.forEach(b =>
+                b.classList.remove("active")
+            );
 
             button.classList.add("active");
 
 
-            selectedCheckinPrice = Number(
-                button.innerText.replace("€", "")
-            );
+            selectedCheckinPrice =
+                Number(
+                    button.innerText
+                        .replace("€", "")
+                );
 
 
             updatePrice();
-
 
         });
 
     });
 
 
+    // =====================================================
+    // PRICE
+    // =====================================================
+
+    const correctionInput =
+        document.getElementById("correction");
+
+    const priceOutput =
+        document.getElementById("price");
 
 
-
-    // ===== Цена =====
-
-const correctionInput = document.getElementById("correction");
-
-const priceOutput = document.getElementById("price");
+    let basePrice = 0;
 
 
-let basePrice = 0;
+    async function loadPrice() {
+
+        const checkin =
+            document.getElementById("checkin").value;
+
+        const checkout =
+            document.getElementById("checkout").value;
+
+        const caravanValue =
+            document.getElementById("caravan").value;
+
+        const caravan =
+            Number(caravanValue);
 
 
-function loadPrice() {
-
-    const checkin = document.getElementById("checkin").value;
-    const caravan = Number(document.getElementById("caravan").value);
-
-    const adults = document.getElementById("adults").innerText;
-    const children = document.getElementById("children").innerText;
-    const pets = document.getElementById("pets").innerText;
+        const adults =
+            Number(
+                document.getElementById("adults").innerText
+            );
 
 
-    if (!checkin || caravan === "🏖️") {
+        const children =
+            Number(
+                document.getElementById("children").innerText
+            );
 
-        basePrice = 0;
-        updatePrice();
-        return;
+
+        const pets =
+            Number(
+                document.getElementById("pets").innerText
+            );
+
+
+        /*
+         * If dates or caravan are missing,
+         * there is no base price yet.
+         */
+
+        if (
+            !checkin ||
+            !checkout ||
+            !caravanValue ||
+            caravanValue === "🏖️" ||
+            Number.isNaN(caravan)
+        ) {
+
+            basePrice = 0;
+
+            updatePrice();
+
+            return;
+
+        }
+
+
+        /*
+         * Check that checkout is after check-in.
+         */
+
+        if (checkout <= checkin) {
+
+            basePrice = 0;
+
+            updatePrice();
+
+            return;
+
+        }
+
+
+        /*
+         * Send request to Apps Script.
+         */
+
+        try {
+
+            const response =
+                await fetch(APPS_SCRIPT_URL, {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
+
+                    body: JSON.stringify({
+
+                        action: "getPrice",
+
+                        checkin: checkin,
+
+                        checkout: checkout,
+
+                        caravan: caravan,
+
+                        adults: adults,
+
+                        children: children,
+
+                        pets: pets
+
+                    })
+
+                });
+
+
+            const result =
+                await response.json();
+
+
+            if (result.success) {
+
+                basePrice =
+                    Number(result.price) || 0;
+
+            } else {
+
+                console.error(
+                    "Pricing error:",
+                    result.error
+                );
+
+                basePrice = 0;
+
+            }
+
+
+            updatePrice();
+
+
+        } catch (error) {
+
+            console.error(
+                "Connection error:",
+                error
+            );
+
+            basePrice = 0;
+
+            updatePrice();
+
+        }
 
     }
 
 
-    google.script.run
-    .withSuccessHandler(function(price) {
+    // =====================================================
+    // UPDATE DISPLAYED PRICE
+    // =====================================================
 
-        basePrice = Number(price) || 0;
+    function updatePrice() {
 
-        updatePrice();
+        const correction =
+            Number(
+                correctionInput.value
+            ) || 0;
 
-    })
-    .getPrice(
-        checkin,
-        caravan,
-        adults,
-        children,
-        pets
+
+        const total =
+            basePrice +
+            selectedCheckinPrice +
+            correction;
+
+
+        if (total < 0) {
+
+            priceOutput.innerText =
+                "-€" +
+                Math.abs(total).toFixed(2);
+
+        } else {
+
+            priceOutput.innerText =
+                "€" +
+                total.toFixed(2);
+
+        }
+
+    }
+
+
+    // =====================================================
+    // CORRECTION
+    // =====================================================
+
+    correctionInput.addEventListener(
+        "input",
+        () => {
+
+            updatePrice();
+
+        }
     );
 
-}
+
+    // =====================================================
+    // DATE / CARAVAN EVENTS
+    // =====================================================
+
+    document
+        .getElementById("checkin")
+        .addEventListener(
+            "change",
+            loadPrice
+        );
 
 
-function updatePrice() {
-
-    let correction = Number(correctionInput.value) || 0;
-
-    let total = basePrice + selectedCheckinPrice + correction;
-
-
-    if (total < 0) {
-
-        priceOutput.innerText =
-            "-€" + Math.abs(total).toFixed(2);
-
-    } else {
-
-        priceOutput.innerText =
-            "€" + total.toFixed(2);
-
-    }
-
-}
+    document
+        .getElementById("checkout")
+        .addEventListener(
+            "change",
+            loadPrice
+        );
 
 
-correctionInput.addEventListener("input", () => {
-
-    updatePrice();
-
-});
-
-
-document.getElementById("checkin")
-.addEventListener("change", loadPrice);
-
-
-document.getElementById("caravan")
-.addEventListener("change", loadPrice);
-
+    document
+        .getElementById("caravan")
+        .addEventListener(
+            "change",
+            loadPrice
+        );
 
 });
