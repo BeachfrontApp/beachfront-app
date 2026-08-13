@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beachfront App</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<script src="script.js"></script>
+
+<body>
+
+
+<div class="container">
+
+
+<!-- Източник -->
+
+<div class="source-buttons">
+
+    <button class="source active">
+        Booking.com
+    </button>
+
+    <button class="source">
+        По телефон
+    </button>
+
+    <button class="source">
+        На място
+    </button>
+
+</div>
+
+
+
+<!-- Дати и каравана -->
+
+<div class="top-row">
+
+    <input type="date">
+
+    <input type="date">
+
+
+    <select>
+
+        <option>🏖️</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+
+    </select>
+
+
+</div>
+
+
+
+
+<!-- Гост -->
+
+<input 
+type="text" 
+placeholder="Две имена">
+
+
+
+
+
+<!-- Гости Card -->
+
+
+<div class="guest-card">
+
+<div class="counter-area">
+
+
+    <div class="counter-row">
+
+        <div class="counter-name">
+            Възрастни
+        </div>
+
+
+        <div class="counter">
+
+            <button>-</button>
+
+            <div class="counter-value">
+                2
+            </div>
+
+            <button>+</button>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="counter-row">
+
+
+        <div class="counter-name">
+            Деца
+        </div>
+
+
+        <div class="counter">
+
+
+            <button>-</button>
+
+
+            <div class="counter-value">
+                0
+            </div>
+
+
+            <button>+</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="counter-row">
+
+
+        <div class="counter-name">
+            Домашни любимци
+        </div>
+
+
+        <div class="counter">
+
+
+            <button>-</button>
+
+
+            <div class="counter-value">
+                0
+            </div>
+
+
+            <button>+</button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Настаняване -->
+
+
+<div class="option-group">
+
+
+<div class="option-title">
+    Настаняване
+</div>
+
+
+<div class="option-buttons">
+
+
+    <button class="option active">
+        €0
+    </button>
+
+
+    <button class="option">
+        €5
+    </button>
+
+
+    <button class="option">
+        €10
+    </button>
+
+
+    <button class="option">
+        €15
+    </button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Цена -->
+
+
+<div class="price-area">
+
+
+    <div class="price-grid">
+
+        <span>
+            Корекция
+        </span>
+
+        <input
+            id="correction"
+            type="text"
+            inputmode="decimal"
+            placeholder="€0"
+        >
+
+        <span>
+            Цена
+        </span>
+
+        <strong id="price">
+            €0.00
+        </strong>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Контакт -->
+
+
+<input 
+type="tel" 
+placeholder="+359 888 888 888"
+autocomplete="tel">
+
+
+
+<textarea placeholder="Бележки"></textarea>
+
+
+
+
+
+<button class="save-button">
+
+    Запази
+
+</button>
+
+
+
+
+</div>
+
+</body>
+
+</html>

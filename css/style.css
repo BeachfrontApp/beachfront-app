@@ -1,0 +1,421 @@
+body {
+    margin: 0;
+    background: #000;
+    font-family: "Roboto", sans-serif;
+    color: white;
+    font-size: 12px;
+}
+
+
+.container {
+    padding: 15px;
+}
+
+
+/* Полета */
+
+input,
+select,
+textarea {
+
+    width: 100%;
+    box-sizing: border-box;
+
+    background: #282828;
+
+    border: 1px solid #444;
+
+    color: white;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+
+textarea {
+    min-height: 80px;
+}
+
+
+
+/* Източник */
+
+.source-buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+
+.source {
+
+    flex: 1;
+
+    height: 32px;
+
+    border: 1px solid #555;
+
+    border-radius: 5px;
+
+    background: #282828;
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+.source.active {
+
+    background: rgba(155,112,32,0.45);
+
+    border: 1px solid #9B7020;
+
+}
+
+
+
+/* Първи ред */
+
+.top-row {
+
+    display: flex;
+
+    gap: 10px;
+
+    width: 100%;
+
+    margin-bottom: 0;
+}
+
+
+.top-row input {
+
+    flex: 1;
+
+}
+
+
+.top-row select {
+
+    flex: 0.5;
+
+}
+
+
+
+/* Гости Card */
+
+
+.guest-card {
+
+    background: #282828;
+
+    border: 1px solid #333;
+
+    border-radius: 8px;
+
+    padding: 8px;
+
+    margin: 0 0 10px 0;
+
+}
+
+
+/* Гости */
+
+
+.counter-area {
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+
+.counter-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0;
+
+    margin: 0;
+
+    height: 32px;
+
+}
+
+
+
+.counter-name {
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    margin-left: 3px;
+
+}
+
+
+
+.counter {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+
+.counter button {
+
+    width: 28px;
+
+    height: 28px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #282828;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+}
+
+
+
+.counter-value {
+
+    min-width: 25px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+}
+
+
+
+/* Настаняване */
+
+
+.option-group {
+
+    margin: 10px 0;
+
+}
+
+
+
+.option-title {
+
+    font-size: 12px;
+
+    margin-bottom: 8px;
+
+    margin-left: 5px;
+
+}
+
+
+
+.option-buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+
+.option {
+
+    flex: 1;
+
+    height: 32px;
+
+    border: 1px solid #555;
+
+    border-radius: 5px;
+
+    background: #282828;
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+
+
+.option.active {
+
+    background: rgba(155,112,32,0.45);
+
+    border: 1px solid #9B7020;
+
+}
+
+
+
+/* Цена */
+
+
+.price-area {
+
+    margin-top: 20px;
+
+    margin-bottom: 15px;
+
+}
+
+
+
+.price-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 8px;
+
+    align-items: center;
+
+}
+
+
+
+.price-grid span {
+
+    text-align: right;
+
+    line-height: 32px;
+
+}
+
+
+
+.price-grid input,
+.price-grid strong {
+
+    height: 32px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    margin: 0;
+
+}
+
+
+
+.price-grid input {
+
+    background: #282828;
+
+    border: 1px solid #555;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 0;
+
+}
+
+
+
+.price-grid strong {
+
+    border: 1px solid #9B7020;
+
+    font-weight: 600;
+
+}
+
+
+
+/* Запази */
+
+
+.save-button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #9B7020;
+
+    border-radius: 5px;
+
+    background: rgba(155,112,32,0.45);
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+#correction::-webkit-inner-spin-button,
+#correction::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#correction {
+    -moz-appearance: textfield;
+}
+
+/* Корекция - евро знак вътре в полето */
+
