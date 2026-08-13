@@ -62,11 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const number =
                 Number(value.innerText) + 1;
 
-            /*
-             * Maximum total number of people/pets
-             * will be checked by the pricing engine.
-             */
-
             value.innerText = number;
 
             loadPrice();
@@ -155,11 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const checkin =
             document.getElementById("checkin").value;
 
+
         const checkout =
             document.getElementById("checkout").value;
 
+
         const caravanValue =
             document.getElementById("caravan").value;
+
 
         const caravan =
             Number(caravanValue);
@@ -167,26 +165,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const adults =
             Number(
-                document.getElementById("adults").innerText
+                document
+                    .getElementById("adults")
+                    .innerText
             );
 
 
         const children =
             Number(
-                document.getElementById("children").innerText
+                document
+                    .getElementById("children")
+                    .innerText
             );
 
 
         const pets =
             Number(
-                document.getElementById("pets").innerText
+                document
+                    .getElementById("pets")
+                    .innerText
             );
 
 
-        /*
-         * If dates or caravan are missing,
-         * there is no base price yet.
-         */
+        // -------------------------------------------------
+        // CHECK REQUIRED DATA
+        // -------------------------------------------------
 
         if (
             !checkin ||
@@ -205,9 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /*
-         * Check that checkout is after check-in.
-         */
+        // -------------------------------------------------
+        // CHECK DATES
+        // -------------------------------------------------
 
         if (checkout <= checkin) {
 
@@ -220,45 +223,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /*
-         * Send request to Apps Script.
-         */
+        // -------------------------------------------------
+        // SEND REQUEST TO APPS SCRIPT
+        // -------------------------------------------------
 
         try {
 
             const response =
-                await fetch(APPS_SCRIPT_URL, {
+                await fetch(
+                    APPS_SCRIPT_URL,
+                    {
+                        method: "POST",
 
-                    method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "text/plain;charset=utf-8"
+                        },
 
-                    headers: {
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-                    },
+                        body: JSON.stringify({
 
-                    body: JSON.stringify({
+                            action: "getPrice",
 
-                        action: "getPrice",
+                            checkin: checkin,
 
-                        checkin: checkin,
+                            checkout: checkout,
 
-                        checkout: checkout,
+                            caravan: caravan,
 
-                        caravan: caravan,
+                            adults: adults,
 
-                        adults: adults,
+                            children: children,
 
-                        children: children,
+                            pets: pets
 
-                        pets: pets
-
-                    })
-
-                });
+                        })
+                    }
+                );
 
 
             const result =
                 await response.json();
+
+
+            console.log(
+                "Pricing response:",
+                result
+            );
 
 
             if (result.success) {
@@ -298,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================================
-    // UPDATE DISPLAYED PRICE
+    // UPDATE PRICE DISPLAY
     // =====================================================
 
     function updatePrice() {
@@ -347,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================================
-    // DATE / CARAVAN EVENTS
+    // DATE EVENTS
     // =====================================================
 
     document
@@ -366,11 +376,16 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
+    // =====================================================
+    // CARAVAN EVENT
+    // =====================================================
+
     document
         .getElementById("caravan")
         .addEventListener(
             "change",
             loadPrice
         );
+
 
 });
